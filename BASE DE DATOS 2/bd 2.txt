@@ -1,0 +1,274 @@
+CREATE DATABASE bdLibro
+create table libro
+(
+	ISBM varchar(15) not null,
+	titulo varchar(30) not null,
+	autor varchar(30) not null,
+	editorial varchar(30) not null,
+	ano_de_publicacion date,
+	primary key(ISBM) 
+);
+create table usuario
+(
+	id_usuario varchar(15) not null,
+	nobre varchar(30) not null,
+	direccion varchar(30) not null,
+	telefono varchar(30) not null,
+	primary key(id_usuario)
+);
+
+create table prestamo
+(
+	id_prestamo varchar(15) not null,
+	id_usuario varchar(15) not null,
+	ISBM varchar(15) not null,
+	fecha_prestamo date,
+	fecha_devolucion date,
+	primary key(id_prestamo),
+	foreign key(id_usuario) references usuario,
+	foreign key(ISBM) references libro
+);
+INSERT INTO libro (ISBM, titulo, autor, editorial, ano_de_publicacion) VALUES
+('978-1-234567-01', 'Cien Años de Soledad', 'Gabriel García Márquez', 'Sudamericana', '1967-01-01'),
+('978-1-234567-02', 'Don Quijote', 'Miguel de Cervantes', 'Francisco de Robles', '1605-01-01'),
+('978-1-234567-03', '1984', 'George Orwell', 'Secker & Warburg', '1949-01-02'),
+('978-1-234567-04', 'El Hobbit', 'J.R.R. Tolkien', 'George Allen & Unwin', '1937-01-02'),
+('978-1-234567-05', 'Orgullo y Prejuicio', 'Jane Austen', 'T. Egerton', '1813-01-02'),
+('978-1-234567-06', 'Matar un Ruiseñor', 'Harper Lee', 'J.B. Lippincott & Co.', '1960-02-02'),
+('978-1-234567-07', 'Ulises', 'James Joyce', 'Shakespeare and Company', '1922-02-02'),
+('978-1-234567-08', 'Crimen y Castigo', 'Fiódor Dostoyevski', 'The Russian Messenger', '1866-02-03'),
+('978-1-234567-09', 'Los Juegos del Hambre', 'Suzanne Collins', 'Scholastic', '2008-03-04'),
+('978-1-234567-10', 'Harry Potter ', 'J.K. Rowling', 'Bloomsbury', '1997-04-05');
+
+-- Insertar datos en la tabla usuario
+INSERT INTO usuario (id_usuario, nobre, direccion, telefono) VALUES
+('U001', 'Juan Pérez', 'Calle 123, Ciudad A', '123456789'),
+('U002', 'Ana Gómez', 'Av. Principal, Ciudad B', '987654321'),
+('U003', 'Carlos Díaz', 'Calle 456, Ciudad C', '456789123'),
+('U004', 'María López', 'Barrio Norte, Ciudad D', '789123456'),
+('U005', 'Pedro Rodríguez', 'Calle Sur, Ciudad E', '321654987'),
+('U006', 'Laura Torres', 'Zona Este, Ciudad F', '654987321'),
+('U007', 'Sofía Méndez', 'Av. Central, Ciudad G', '951753852'),
+('U008', 'Fernando Ruiz', 'Colonia Oeste, Ciudad H', '753852951'),
+('U009', 'Lucía Herrera', 'Calle Peatonal, Ciudad I', '852951753'),
+('U010', 'Ricardo Chávez', 'Residencial, Ciudad J', '159357486');
+
+-- Insertar datos en la tabla prestamo
+INSERT INTO prestamo (id_prestamo, id_usuario, ISBM, fecha_prestamo, fecha_devolucion) VALUES
+('P001', 'U001', '978-1-234567-01', '2025-03-01', '2025-03-15'),
+('P002', 'U002', '978-1-234567-02', '2025-03-02', '2025-03-16'),
+('P003', 'U003', '978-1-234567-03', '2025-03-03', '2025-03-17'),
+('P004', 'U004', '978-1-234567-04', '2025-03-04', '2025-03-18'),
+('P005', 'U005', '978-1-234567-05', '2025-03-05', '2025-03-19'),
+('P006', 'U006', '978-1-234567-06', '2025-03-06', '2025-03-20'),
+('P007', 'U007', '978-1-234567-07', '2025-03-07', '2025-03-21'),
+('P008', 'U008', '978-1-234567-08', '2025-03-08', '2025-03-22'),
+('P009', 'U009', '978-1-234567-09', '2025-03-09', '2025-03-23'),
+('P010', 'U010', '978-1-234567-10', '2025-03-10', '2025-03-24');
+
+
+
+---------------------------------------------------------------------------
+CREATE DATABASE tiendaonline
+create table cliente
+(
+	id_cliente varchar(50) not null,
+	nombre varchar(50) not null,
+	correo_electronico varchar(50) not null,
+	direccion varchar(50) not null,
+	primary key(id_cliente)
+);
+create table producto
+(
+	id_producto varchar(50) not null,	
+	nombre varchar(50) not null,
+	descripcion varchar(100) not null,
+	precio int,
+	primary key(id_producto)
+);
+create table pedido
+(
+	id_pedido varchar(50) not null,
+	id_cliente varchar(50) not null,
+	fecha_pedido date,
+	estado varchar(100) not null,
+	primary key(id_pedido),
+	FOREIGN key(id_cliente) references cliente	
+);
+create table detalle_pedido
+(
+	id_detalle varchar(50) not null,
+	id_pedido varchar(50) not null,
+	id_producto varchar(50) not null,
+	cantidad int,
+	primary key(id_detalle),
+	foreign key(id_pedido) references pedido,
+	foreign key(id_producto) references producto
+);
+INSERT INTO cliente (id_cliente, nombre, correo_electronico, direccion) VALUES
+('C001', 'Juan Pérez', 'juanperez@email.com', 'Av. Principal 123'),
+('C002', 'Ana Gómez', 'anagomez@email.com', 'Calle Secundaria 456'),
+('C003', 'Carlos Díaz', 'carlosdiaz@email.com', 'Barrio Norte 789'),
+('C004', 'María López', 'marialopez@email.com', 'Zona Sur 321'),
+('C005', 'Pedro Rodríguez', 'pedrorodriguez@email.com', 'Colonia Este 654'),
+('C006', 'Laura Torres', 'lauratorres@email.com', 'Residencial Oeste 987'),
+('C007', 'Sofía Méndez', 'sofiamendez@email.com', 'Paseo Central 741'),
+('C008', 'Fernando Ruiz', 'fernandoruiz@email.com', 'Calle Peatonal 852'),
+('C009', 'Lucía Herrera', 'luciaherrera@email.com', 'Avenida Nueva 963'),
+('C010', 'Ricardo Chávez', 'ricardochavez@email.com', 'Zona Industrial 159');
+
+INSERT INTO producto (id_producto, nombre, descripcion, precio) VALUES
+('P001', 'Laptop HP', 'Laptop HP 15.6 pulgadas, 8GB RAM, 512GB SSD', 850),
+('P002', 'Smartphone Samsung', 'Samsung Galaxy S23, 128GB, 5G', 999),
+('P003', 'Tablet Lenovo', 'Tablet Lenovo 10 pulgadas, 64GB, Android', 300),
+('P004', 'Monitor LG', 'Monitor LG 27 pulgadas, Full HD, IPS', 220),
+('P005', 'Teclado Mecánico', 'Teclado mecánico RGB para gaming', 75),
+('P006', 'Mouse Logitech', 'Mouse inalámbrico Logitech ergonómico', 50),
+('P007', 'Impresora Epson', 'Impresora multifuncional Epson WiFi', 180),
+('P008', 'Auriculares Sony', 'Auriculares Sony con cancelación de ruido', 150),
+('P009', 'Disco Duro Externo', 'Disco duro externo 2TB, USB 3.0', 110),
+('P010', 'Silla Gamer', 'Silla ergonómica para gaming, ajustable', 250);
+
+INSERT INTO pedido (id_pedido, id_cliente, fecha_pedido, estado) VALUES
+('O001', 'C001', '2025-03-01', 'En proceso'),
+('O002', 'C002', '2025-03-02', 'Entregado'),
+('O003', 'C003', '2025-03-03', 'Pendiente'),
+('O004', 'C004', '2025-03-04', 'Cancelado'),
+('O005', 'C005', '2025-03-05', 'En proceso'),
+('O006', 'C006', '2025-03-06', 'Pendiente'),
+('O007', 'C007', '2025-03-07', 'Entregado'),
+('O008', 'C008', '2025-03-08', 'En proceso'),
+('O009', 'C009', '2025-03-09', 'Cancelado'),
+('O010', 'C010', '2025-03-10', 'Entregado');
+
+
+INSERT INTO detalle_pedido (id_detalle, id_pedido, id_producto, cantidad) VALUES
+('D001', 'O001', 'P001', 1),
+('D002', 'O002', 'P002', 2),
+('D003', 'O003', 'P003', 1),
+('D004', 'O004', 'P004', 1),
+('D005', 'O005', 'P005', 3),
+('D006', 'O006', 'P006', 2),
+('D007', 'O007', 'P007', 1),
+('D008', 'O008', 'P008', 2),
+('D009', 'O009', 'P009', 1),
+('D010', 'O010', 'P010', 1);
+
+----------------------------------------------------------------------
+CREATE DATABASE clase
+CREATE DATABASE bdestudiante;
+
+Create table estudiante
+(
+	idEstudiante SERIAL,
+	nombre varchar(35),
+	apellido varchar(35),
+	fecha_naci DATE,
+	primary key(idEstudiante)
+);
+
+Create table curso
+(
+	idCurso SERIAL,
+	nombre varchar(35),
+	descripcion varchar(45),
+	creditos int,
+	primary key(idCurso)
+);
+
+Create table profesor
+(
+	idProfesor SERIAL,
+	nombre varchar(35),
+	apellido varchar(35),
+	especialidad varchar(30),
+	primary key(idProfesor)
+);
+
+Create table inscripcion
+(
+	idEstudiante INT,
+	idCurso INT,
+	fecha DATE,
+	PRIMARY KEY (idEstudiante, idCurso),
+	FOREIGN KEY (idEstudiante) REFERENCES estudiante(idEstudiante),
+	FOREIGN KEY (idCurso) REFERENCES curso(idCurso)
+);
+
+Create table imparte
+(
+	idProfesor INT,
+	idCurso INT,
+	PRIMARY KEY (idProfesor, idCurso),
+	FOREIGN KEY (idProfesor) REFERENCES profesor(idProfesor),
+	FOREIGN KEY (idCurso) REFERENCES curso(idCurso)
+);
+
+-- Insertar datos en la tabla estudiante
+INSERT INTO estudiante (nombre, apellido, fecha_naci) VALUES
+('Juan', 'Pérez', '2000-04-15'),
+('María', 'López', '1999-07-22'),
+('Carlos', 'Martínez', '2001-12-10'),
+('Ana', 'Gómez', '1998-03-05'),
+('Luis', 'Torres', '2002-06-18'),
+('Sofía', 'Ramírez', '2000-09-30'),
+('Andrés', 'Vega', '2003-01-14'),
+('Elena', 'Cruz', '1999-05-25'),
+('Diego', 'Castillo', '2001-11-20'),
+('Laura', 'Flores', '2002-08-12');
+
+-- Insertar datos en la tabla curso
+INSERT INTO curso (nombre, descripcion, creditos) VALUES
+('Matemáticas', 'Álgebra y Geometría', 5),
+('Física', 'Física clásica', 4),
+('Historia', 'Historia mundial', 3),
+('Literatura', 'Análisis de textos', 4),
+('Química', 'Química orgánica', 5),
+('Biología', 'Biología celular', 3),
+('Filosofía', 'Introducción a Filosofía', 3),
+('Inglés', 'Curso avanzado', 2),
+('Programación', 'Fundamentos de Python', 5),
+('Arte', 'Historia del arte', 3);
+
+-- Insertar datos en la tabla profesor
+INSERT INTO profesor (nombre, apellido, especialidad) VALUES
+('Claudia', 'Rojas', 'Matemáticas'),
+('Roberto', 'Fernández', 'Física'),
+('Patricia', 'Hernández', 'Historia'),
+('José', 'Morales', 'Literatura'),
+('Marta', 'Serrano', 'Química'),
+('Alejandro', 'Aguilar', 'Biología'),
+('Gabriela', 'Romero', 'Filosofía'),
+('Daniel', 'Mendoza', 'Inglés'),
+('Laura', 'Paredes', 'Programación'),
+('Sergio', 'Villalba', 'Arte');
+
+-- Insertar datos en la tabla inscripcion
+INSERT INTO inscripcion (idEstudiante, idCurso, fecha) VALUES
+(1, 1, '2025-01-10'),
+(2, 2, '2025-01-12'),
+(3, 3, '2025-01-15'),
+(4, 4, '2025-01-20'),
+(5, 5, '2025-01-25'),
+(6, 6, '2025-02-01'),
+(7, 7, '2025-02-05'),
+(8, 8, '2025-02-10'),
+(9, 9, '2025-02-15'),
+(10, 10, '2025-02-20');
+
+-- Insertar datos en la tabla imparte
+INSERT INTO imparte (idProfesor, idCurso) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+
+C:\Users\LENOVO\AppData\Local\Programs\Microsoft VS Code
+
